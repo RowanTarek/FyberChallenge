@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>-->
+    <color name="startBlue">#36C0DA</color>
+    <color name="endBlue">#2BAEC6</color>
+    <color name="darkGrey">#758194</color>
+    <color name="lightGrey">#E9EDF1</color>
+    <color name="offerTitleColor">#54647A</color>
+</resources>

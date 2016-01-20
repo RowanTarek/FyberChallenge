@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">FyberChallenge</string>
+    <string name="appId">App Id</string>
+    <string name="userId">User Id</string>
+    <string name="apiKey">API Key</string>
+    <string name="customParams">Custom Parameter</string>
+    <string name="connect">Connect</string>
+    <string name="requiredField">This field is required</string>
+    <string name="generalErrorMessage">Error Occurred while loading data. Please try again later.</string>
+    <string name="noOffersAvailable">No offers Available\n Check back later</string>
+    <string name="noInternetConnection">Kindly check your Internet connection and try again</string>
+</resources>
