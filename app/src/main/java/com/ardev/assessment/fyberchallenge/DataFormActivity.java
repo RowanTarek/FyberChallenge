@@ -9,8 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ardev.assessment.fyberchallenge.BEHandler.FyberRequest;
-import com.ardev.assessment.fyberchallenge.BEHandler.FyberRequestHandler;
-import com.ardev.assessment.fyberchallenge.BEHandler.VolleyRequester;
 import com.ardev.assessment.fyberchallenge.listeners.OnRequestCompletedListener;
 import com.ardev.assessment.fyberchallenge.utils.AppLog;
 import com.fyber.Fyber;
@@ -84,18 +82,14 @@ public class DataFormActivity extends AppCompatActivity implements Validator.Val
         apiKey = apiKeyEditText.getText().toString();
 
         FyberRequest offersWallRequest = new FyberRequest(appId, userId, apiKey);
-        /*Fyber.Settings fyberSettings =*/
-                Fyber.with(appId, this).withUserId(userId)/*.withParameters(offersWallRequest.getRequestParamsMap()).
-                        /*withSecurityToken(offersWallRequest.getSecurityHash())* /*/
+        Fyber.with(appId, this).withUserId(userId)
                         .start().setCustomUIString(
                         Fyber.Settings.UIStringIdentifier.ERROR_LOADING_OFFERWALL_NO_INTERNET_CONNECTION,
                         R.string.noInternetConnection, getApplicationContext());
-//        AppLog.d("DataFormActivity", fyberSettings.toString());
 
         offersWallRequest.setOfferType("112");
         findViewById(R.id.formProgress).setVisibility(View.VISIBLE);
-       /* VolleyRequester.getInstance(this).requestJsonNwCall(new FyberRequestHandler().getOffersWall(offersWallRequest),
-                this);*/
+
         showOffersWall(offersWallRequest.getRequestParamsMap());
     }//end onValidationSucceeded
     /*****************************************************************************/
