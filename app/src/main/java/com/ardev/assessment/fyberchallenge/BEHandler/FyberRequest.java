@@ -131,6 +131,7 @@ public class FyberRequest {
         sb.append("&" + API_KEY);
         String allParamsString = sb.toString();
         String requestHashKey = generateRequestHash(allParamsString);
+        sb.delete(sb.lastIndexOf("&"), sb.length());
         sb.append("&" + String.format("%s=%s", UrlParameters.HASH_KEY, requestHashKey) );
         return sb.toString();
     }//end generateRequestHash
