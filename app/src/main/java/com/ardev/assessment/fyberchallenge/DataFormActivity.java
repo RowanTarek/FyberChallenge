@@ -9,13 +9,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ardev.assessment.fyberchallenge.BEHandler.FyberRequest;
+import com.ardev.assessment.fyberchallenge.BEHandler.FyberRequestHandler;
+import com.ardev.assessment.fyberchallenge.BEHandler.VolleyRequester;
 import com.ardev.assessment.fyberchallenge.listeners.OnRequestCompletedListener;
 import com.ardev.assessment.fyberchallenge.utils.AppLog;
 import com.fyber.Fyber;
-import com.fyber.ads.AdFormat;
-import com.fyber.requesters.OfferWallRequester;
-import com.fyber.requesters.RequestCallback;
-import com.fyber.requesters.RequestError;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
@@ -24,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.Map;
 
 public class DataFormActivity extends AppCompatActivity implements Validator.ValidationListener, OnRequestCompletedListener {
     /*****************************************************************************/
@@ -34,14 +31,13 @@ public class DataFormActivity extends AppCompatActivity implements Validator.Val
     private EditText appIdEditText, userIdEditText, apiKeyEditText;
 
     private String appId, userId, apiKey;
-
-    private final int OFFERWALL_REQUEST_CODE = 150;
     /*****************************************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_form);
         initialize();
+//        showOffersWall();
     }//end onCreate
     /*****************************************************************************/
     private void initialize() {
@@ -64,9 +60,9 @@ public class DataFormActivity extends AppCompatActivity implements Validator.Val
 
     }//end initialize
     /*****************************************************************************/
-    private void showOffersWall(Map<String, String> params) {
-        OfferWallRequester.create(offersWallReqCallback)/*.addParameters(params)*/
-                .addParameter("offer_types", "112").request(getApplicationContext());
+    private void showOffersWall() {
+        Intent offersWallIntent = new Intent(this, OffersWallActivity.class);
+        startActivity(offersWallIntent);
     }//end showOffersWall
     /*****************************************************************************/
     @Override
@@ -82,15 +78,14 @@ public class DataFormActivity extends AppCompatActivity implements Validator.Val
         apiKey = apiKeyEditText.getText().toString();
 
         FyberRequest offersWallRequest = new FyberRequest(appId, userId, apiKey);
-        Fyber.with(appId, this).withUserId(userId)
-                        .start().setCustomUIString(
-                        Fyber.Settings.UIStringIdentifier.ERROR_LOADING_OFFERWALL_NO_INTERNET_CONNECTION,
-                        R.string.noInternetConnection, getApplicationContext());
+        Fyber.Settings fyberSettings =
+                Fyber.with(appId, this).withUserId(userId)/*.withParameters(offersWallRequest.getRequestParamsMap()).
+                        withSecurityToken(offersWallRequest.getSecurityHash())*/.start();
+        AppLog.d("DataFormActivity", fyberSettings.toString());
 
-        offersWallRequest.setOfferType("112");
         findViewById(R.id.formProgress).setVisibility(View.VISIBLE);
-
-        showOffersWall(offersWallRequest.getRequestParamsMap());
+        VolleyRequester.getInstance(this).requestJsonNwCall(new FyberRequestHandler().getOffersWall(offersWallRequest),
+                this);
     }//end onValidationSucceeded
     /*****************************************************************************/
     @Override
@@ -126,31 +121,4 @@ public class DataFormActivity extends AppCompatActivity implements Validator.Val
         }
     }//end onFail
     /*****************************************************************************/
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        AppLog.d(LOG_TAG, "back to activity");
-        findViewById(R.id.formProgress).setVisibility(View.GONE);
-
-    }
-    /*****************************************************************************/
-    RequestCallback offersWallReqCallback = new RequestCallback() {
-
-        @Override
-        public void onRequestError(RequestError requestError) {
-            AppLog.d(LOG_TAG, "Something went wrong with the request: " + requestError.getDescription());
-        }
-        //-------------------------------------------------------------------------/
-        @Override
-        public void onAdAvailable(Intent intent) {
-            AppLog.d(LOG_TAG, "Offers are available");
-//            AppLog.d(LOG_TAG, intent.getExtras().);
-            startActivityForResult(intent, OFFERWALL_REQUEST_CODE);
-        }
-        //-------------------------------------------------------------------------/
-        @Override
-        public void onAdNotAvailable(AdFormat adFormat) {
-            AppLog.d(LOG_TAG, "No ad available");
-            Toast.makeText(getApplicationContext(), R.string.noOffersAvailable, Toast.LENGTH_SHORT).show();
-        }
-    };
 }//end Activity

@@ -9,5 +9,14 @@
         <item name="android:windowBackground">@android:color/white</item>
 
     </style>
+    <style name="offerInfoBoxText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/darkGrey</item>
+        <item name="android:background">@drawable/oval_grey</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:paddingTop">@dimen/itemSmallPadding</item>
+        <item name="android:paddingBottom">@dimen/itemSmallPadding</item>
+        <item name="android:paddingRight">@dimen/itemMediumPadding</item>
+        <item name="android:paddingLeft">@dimen/itemMediumPadding</item>
+    </style>
 
 </resources>
