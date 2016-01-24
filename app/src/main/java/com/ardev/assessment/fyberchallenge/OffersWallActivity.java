@@ -4,13 +4,18 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import com.ardev.assessment.fyberchallenge.listeners.OnRequestCompletedListener;
 import com.ardev.assessment.fyberchallenge.utils.AppLog;
 import com.fyber.Fyber;
 import com.fyber.ads.AdFormat;
 import com.fyber.requesters.OfferWallRequester;
 import com.fyber.requesters.RequestCallback;
 import com.fyber.requesters.RequestError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class OffersWallActivity extends AppCompatActivity {
     /*****************************************************************************/
@@ -21,8 +26,8 @@ public class OffersWallActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_offers_wall);
-        Fyber.with("2070", this).start();
-        OfferWallRequester.create(offersWallReqCallback).request(getApplicationContext());
+//        Fyber.with("2070", this).start();
+//        OfferWallRequester.create(offersWallReqCallback).request(getApplicationContext());
     }//end onCreate
     /*****************************************************************************/
     @Override
@@ -31,7 +36,7 @@ public class OffersWallActivity extends AppCompatActivity {
 
     }
     /*****************************************************************************/
-    RequestCallback offersWallReqCallback = new RequestCallback() {
+    private RequestCallback offersWallReqCallback = new RequestCallback() {
 
         @Override
         public void onRequestError(RequestError requestError) {
@@ -51,4 +56,5 @@ public class OffersWallActivity extends AppCompatActivity {
             findViewById(R.id.errorTextView).setVisibility(View.VISIBLE);
         }
     };
+
 }//end OffersWallActivity

@@ -18,6 +18,7 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -83,8 +84,8 @@ public class DataFormActivity extends AppCompatActivity implements Validator.Val
         AppLog.d("DataFormActivity", fyberSettings.toString());
 
         findViewById(R.id.formProgress).setVisibility(View.VISIBLE);
-        VolleyRequester.getInstance(this).requestJsonNwCall(new FyberRequestHandler().getOffersWall(offersWallRequest),
-                this);
+        VolleyRequester.getInstance(getApplicationContext()).
+                requestJsonNwCall(new FyberRequestHandler().getOffersWall(offersWallRequest), this);
     }//end onValidationSucceeded
     /*****************************************************************************/
     @Override

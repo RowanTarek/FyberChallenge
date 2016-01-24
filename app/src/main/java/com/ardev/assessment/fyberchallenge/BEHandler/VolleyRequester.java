@@ -2,16 +2,20 @@ package com.ardev.assessment.fyberchallenge.BEHandler;
 
 import android.content.Context;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ardev.assessment.fyberchallenge.listeners.OnRequestCompletedListener;
 import com.ardev.assessment.fyberchallenge.utils.AppLog;
 
 import org.json.JSONObject;
+
+import java.util.Map;
 
 
 /**
@@ -38,7 +42,7 @@ public class VolleyRequester {
                     @Override
                     public void onResponse(JSONObject response) {
                         AppLog.d(LOG_TAG, "in requestJsonNwCall with response = " + response) ;
-                        requestCompletedListener.onSuccess(response);
+                        requestCompletedListener.onSuccess(responseHeaders, response);
                     }//end onResponse
                 }, new Response.ErrorListener() {
 
@@ -48,7 +52,16 @@ public class VolleyRequester {
                         requestCompletedListener.onFail(error.networkResponse.statusCode,
                                 new String(error.networkResponse.data));
                     }//end onError
-                });
+                })
+        {
+            //Override parseNetworkResponse to get header
+            private Map<String, String> responseHeaders;
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                responseHeaders = response.headers;
+                return super.parseNetworkResponse(response);
+            }//end parseNetworkResponse
+        };//end volleyJSONRequester
 
         queue.add(jsObjRequest);
     }//end requestJsonNwCall
