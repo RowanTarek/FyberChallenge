@@ -158,21 +158,15 @@ public class FyberRequest {
     private String generateRequestHash(String text) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
-            /*error prune due to Fyber Hashing generation rule stating:
-             "In case some parameters have to be url-encoded, the entire hash calculation has to be done before this encoding"
-             @See
-             <a href="http://developer.fyber.com/content/current/android/offer-wall/offer-api/index.html#HashKeyCalculation">}
-             Fyber Hash Generation </a>*/
-
-            byte[] bytes = text.getBytes("UTF-8");
+            byte[] bytes = text.getBytes();
             md.update(bytes, 0, bytes.length);
             byte[] sha1hash = md.digest();
             return convertToHex(sha1hash);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        } /*catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }
+        }*/
         return null;
     }//end generateRequestHash
 
