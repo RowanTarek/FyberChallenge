@@ -80,8 +80,7 @@ public class DataFormActivity extends AppCompatActivity implements Validator.Val
 
         FyberRequest offersWallRequest = new FyberRequest(appId, userId, apiKey);
         Fyber.Settings fyberSettings =
-                Fyber.with(appId, this).withUserId(userId).withParameters(offersWallRequest.getRequestParamsMap()).
-                        /*withSecurityToken(offersWallRequest.getSecurityHash()).*/start();
+                Fyber.with(appId, this).withUserId(userId).withParameters(offersWallRequest.getRequestParamsMap()).start();
         AppLog.d("DataFormActivity", fyberSettings.toString());
 
         findViewById(R.id.formProgress).setVisibility(View.VISIBLE);
@@ -105,21 +104,14 @@ public class DataFormActivity extends AppCompatActivity implements Validator.Val
         }//end loop
     }//end onValidationFailed
     /*****************************************************************************/
-    /*@Override
-    public void onSuccess(Object response) {
-        findViewById(R.id.formProgress).setVisibility(View.GONE);
-        AppLog.d(LOG_TAG, "Offers ok. response = " + response);
-    }//end onSuccess*/
-
     @Override
     public void onSuccess(FyberResponse fyberResponse) {
         findViewById(R.id.formProgress).setVisibility(View.GONE);
         AppLog.d(LOG_TAG, "Offers ok. response = " + fyberResponse.getResInJson());
-//        AppLog.d(LOG_TAG, "Offers ok. response = " + fyberResponse.getSignatureHeader());
-        AppLog.d(LOG_TAG, "Offers ok. response = " + fyberResponse.IsRealResponse());
-
+        AppLog.d(LOG_TAG, "Offers ok. response = " + fyberResponse.IsRealResponse(apiKey));
+        Toast.makeText(this, fyberResponse.IsRealResponse(apiKey)? R.string.goodResponse : R.string.tamperedResponse,
+                Toast.LENGTH_SHORT).show();
     }//end onSuccess
-
     /*****************************************************************************/
     @Override
     public void onFail(int statusCode, String data) {

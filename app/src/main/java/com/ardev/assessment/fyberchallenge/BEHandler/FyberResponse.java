@@ -1,11 +1,18 @@
 package com.ardev.assessment.fyberchallenge.BEHandler;
 
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.ardev.assessment.fyberchallenge.utils.AppLog;
 import com.ardev.assessment.fyberchallenge.utils.Constants;
+import com.ardev.assessment.fyberchallenge.utils.SHA1Generator;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 /**
  * Created by RowanTarek on 24/01/2016.
@@ -14,7 +21,7 @@ public class FyberResponse {
     /*****************************************************************************/
     private String resInJson, signatureHeader;
     private int pagesCount;
-    protected byte[] resData;
+//    protected byte[] resData;
     /*****************************************************************************/
     public void setResInJson(String resInJson) {
         this.resInJson = resInJson;
@@ -36,11 +43,10 @@ public class FyberResponse {
         return pagesCount;
     }
     /*****************************************************************************/
-    public boolean IsRealResponse(){
-        // TODO: 25/01/2016 from user input not static
-        String apiAndResponse = resInJson + "1c915e3b5d42d05136185030892fbb846c278927";
+    public boolean IsRealResponse(String apiKey){
+        String apiAndResponse = resInJson + apiKey;
         AppLog.d("FybserResponse", "apiAndResponse = " + apiAndResponse);
-        String responseHashKey = generateResponseHash(apiAndResponse);
+        String responseHashKey = SHA1Generator.generateStringHash(apiAndResponse);
         AppLog.d("FyberResponse", "signature = " + signatureHeader);
         AppLog.d("FybserResponse", "response hash key= " + responseHashKey);
         return
@@ -48,37 +54,21 @@ public class FyberResponse {
                         true: false ;
     }//end isRealResponse
     /*****************************************************************************/
+    public ArrayList<Offer> getOffers() throws JSONException {
+        JSONObject responseAsJson = new JSONObject(resInJson);
+        ArrayList offersList = new ArrayList(responseAsJson.getInt("count"));
+        JSONArray jsonOffersList = responseAsJson.getJSONArray("offers");
+        int offersLength = jsonOffersList.length();
+        for(int counter=0 ; counter<offersLength ; counter++){
+            JSONObject jsonCurOffer = jsonOffersList.getJSONObject(counter);
+            Offer curOffer = new Offer();
+            curOffer.setTitle(jsonCurOffer.getString("title"));
+            curOffer.setTeaser(jsonCurOffer.getString("teaser"));
+            curOffer.setThumbnailHiResUrl(jsonCurOffer.getJSONObject("thumbnail").getString("hires"));
+            curOffer.setPayout(jsonCurOffer.getString("payout"));
+            offersList.add(curOffer);
+        }//end loop
+        return offersList;
+    }//end getOffers
     /*****************************************************************************/
-    /**
-     * @Author  <a href="http://stackoverflow.com/users/419075/amir-raminfar">Amir Raminfar</a>
-     */
-    private String convertToHex(byte[] data) {
-        StringBuilder buf = new StringBuilder();
-        for (byte b : data) {
-            int halfbyte = (b >>> 4) & 0x0F;
-            int two_halfs = 0;
-            do {
-                buf.append((0 <= halfbyte) && (halfbyte <= 9) ? (char) ('0' + halfbyte) : (char) ('a' + (halfbyte - 10)));
-                halfbyte = b & 0x0F;
-            } while (two_halfs++ < 1);
-        }
-        return buf.toString();
-    }//end convertToHex
-    /*****************************************************************************/
-    /**
-     * @Author  <a href="http://stackoverflow.com/users/419075/amir-raminfar">Amir Raminfar</a>
-     */
-    private String generateResponseHash(String text) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
-            byte[] bytes = text.getBytes();
-            md.update(bytes, 0, bytes.length);
-            byte[] sha1hash = md.digest();
-            return convertToHex(sha1hash);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }//end generateRequestHash
-
 }//end class FyberResponse

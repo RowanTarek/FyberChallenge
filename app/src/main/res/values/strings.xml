@@ -8,4 +8,6 @@
     <string name="requiredField">This field is required</string>
     <string name="generalErrorMessage">Error Occurred while loading data. Please try again later.</string>
     <string name="noOffersAvailable">No offers Available\n Check back later</string>
+    <string name="tamperedResponse">Tampered Response!</string>
+    <string name="goodResponse">Good Response</string>
 </resources>
