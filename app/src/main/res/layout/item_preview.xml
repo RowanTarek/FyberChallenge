@@ -4,7 +4,6 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="@dimen/itemMediumPadding">
-    <!-- android:minHeight="@dimen/minCardHeight" -->
 
     <ImageView
         android:id="@+id/offerPreviewImg"
@@ -72,5 +71,4 @@
         android:padding="@dimen/itemMediumPadding"
         android:background="@drawable/gradient_blue"
         android:gravity="center"/>
-    <!--android:background="@drawable/bg_semi_transparent"-->
 </LinearLayout>

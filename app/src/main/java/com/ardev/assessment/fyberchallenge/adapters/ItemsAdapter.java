@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.ardev.assessment.fyberchallenge.BEHandler.Offer;
 import com.ardev.assessment.fyberchallenge.R;
-import com.ardev.assessment.fyberchallenge.listeners.OnItemClickListener;
 import com.ardev.assessment.fyberchallenge.view.ItemHolder;
 import com.squareup.picasso.Picasso;
 
@@ -44,14 +43,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemHolder>{
             Picasso.with(holder.itemImg.getContext()).load(curItem.getThumbnailHiResUrl()).into(holder.itemImg);
 
         }//end if --? img url available
-        if(holder.itemImg.getContext() instanceof OnItemClickListener) {
-            holder.setClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((OnItemClickListener)holder.itemImg.getContext()).onItemClick(curItem.getPayout());
-                }
-            });
-        }//end if --? listener to be supplied
     }//end onBindViewHolder
 
     @Override

@@ -18,15 +18,11 @@ public class FyberRequest {
     private final String APP_ID, USER_ID, API_KEY;
     private String deviceId, ip, customParameter, offerType;
 /*http://api.fyber.com/feed/v1/offers.json?
-&ip=[IP_ADDRESS]
-&device_id=[DEVICE_ID]
 &ps_time=[TIMESTAMP]
 &pub0=[CUSTOM]
-&timestamp=[UNIX_TIMESTAMP]
-&offer_types=[OFFER_TYPES]
 &google_ad_id=[GAID]
 &google_ad_id_limited_tracking_enabled=[GAID ENABLED]
-&hashkey=[HASHKEY]*/
+*/
     private enum UrlParameters {
         RESPONSE_FORMAT("format"),
         APP_ID("appid"),
@@ -37,7 +33,6 @@ public class FyberRequest {
         TIME_STAMP("timestamp"),
         IP("ip"),
         OFFER_TYPE("offer_types"),
-//        API_KEY(""),  //no key for this value
         CUSTOM_PARAMETER("pub0")
         ;
 
@@ -104,9 +99,6 @@ public class FyberRequest {
         return requestParamsMap;
     }
 
-    /*public String getSecurityHash(){
-        return generateRequestHash(getFinalRequestParams());
-    }*/
 
     public String getParams(){
         return getFinalRequestParams();
@@ -114,10 +106,6 @@ public class FyberRequest {
     /*****************************************************************************/
     /*****************************************************************************/
     private String getFinalRequestParams(){
-        /*String hashKey = requestParamsMap.entrySet().stream()
-                .map(p -> urlEncodeUTF8(p.getKey()) + "=" + urlEncodeUTF8(p.getValue()))
-                .reduce((p1, p2) -> p1 + "&" + p2)
-                .orElse("");*/
 
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<?,?> entry : requestParamsMap.entrySet()) {

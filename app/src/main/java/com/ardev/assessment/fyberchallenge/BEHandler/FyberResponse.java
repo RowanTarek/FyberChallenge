@@ -21,17 +21,18 @@ import java.util.ArrayList;
 /**
  * Created by RowanTarek on 24/01/2016.
  */
+
+/**
+ * Parcelable implementation by <a href="http://shri.blog.kraya.co.uk/author/shri/">Shri</a>
+ *  See <a href=" http://shri.blog.kraya.co.uk/2010/04/26/android-parcel-data-to-pass-between-activities-using-parcelable-classes/">His post</a>
+ */
 public class FyberResponse implements Parcelable{
     /*****************************************************************************/
     private String resInJson, signatureHeader;
     private int pagesCount;
-//    protected byte[] resData;
-
+    /*****************************************************************************/
     /**
-     *
-     * Constructor to use when re-constructing object
-     * from a parcel
-     *
+     * Constructor to use when re-constructing object from a parcel
      * @param in a parcel from which to read this object
      */
     public FyberResponse(Parcel in) {
@@ -95,7 +96,6 @@ public class FyberResponse implements Parcelable{
         return 0;
     }//end describeContents
     /*****************************************************************************/
-
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(pagesCount);
