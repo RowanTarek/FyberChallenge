@@ -100,7 +100,7 @@ public class VolleyRequester {
                 return super.parseNetworkResponse(response);
             }//end parseNetworkResponse*/
         };//end volleyJSONRequester
-
+        jsObjRequest.setShouldCache(false);
         queue.add(jsObjRequest);
     }//end requestJsonNwCall
     /*****************************************************************************/
