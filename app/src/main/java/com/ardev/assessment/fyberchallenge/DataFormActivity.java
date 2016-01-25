@@ -81,7 +81,7 @@ public class DataFormActivity extends AppCompatActivity implements Validator.Val
         FyberRequest offersWallRequest = new FyberRequest(appId, userId, apiKey);
         Fyber.Settings fyberSettings =
                 Fyber.with(appId, this).withUserId(userId).withParameters(offersWallRequest.getRequestParamsMap()).
-                        withSecurityToken(offersWallRequest.getSecurityHash()).start();
+                        /*withSecurityToken(offersWallRequest.getSecurityHash()).*/start();
         AppLog.d("DataFormActivity", fyberSettings.toString());
 
         findViewById(R.id.formProgress).setVisibility(View.VISIBLE);

@@ -1,5 +1,7 @@
 package com.ardev.assessment.fyberchallenge.BEHandler;
 
+import com.ardev.assessment.fyberchallenge.utils.SHA1Generator;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -59,7 +61,7 @@ public class FyberRequest {
         requestParamsMap.put(UrlParameters.USER_ID.toString(), this.USER_ID);
         requestParamsMap.put(UrlParameters.RESPONSE_FORMAT.toString(), "json");
         requestParamsMap.put(UrlParameters.LOCALE.toString(), "en");
-        requestParamsMap.put(UrlParameters.TIME_STAMP.toString(), String.valueOf((System.currentTimeMillis()/1000)) );
+        requestParamsMap.put(UrlParameters.TIME_STAMP.toString(), String.valueOf((System.currentTimeMillis() / 1000)) );
     }//end constructor
     /*****************************************************************************/
     public void setDeviceId(String deviceId) {
@@ -102,9 +104,9 @@ public class FyberRequest {
         return requestParamsMap;
     }
 
-    public String getSecurityHash(){
+    /*public String getSecurityHash(){
         return generateRequestHash(getFinalRequestParams());
-    }
+    }*/
 
     public String getParams(){
         return getFinalRequestParams();
@@ -130,44 +132,12 @@ public class FyberRequest {
         //adding apiKey
         sb.append("&" + API_KEY);
         String allParamsString = sb.toString();
-        String requestHashKey = generateRequestHash(allParamsString);
+        String requestHashKey = SHA1Generator.generateStringHash(allParamsString);
         sb.delete(sb.lastIndexOf("&"), sb.length());
         sb.append("&" + String.format("%s=%s", UrlParameters.HASH_KEY, requestHashKey) );
         return sb.toString();
     }//end generateRequestHash
     /*****************************************************************************/
-    /**
-     * @Author  <a href="http://stackoverflow.com/users/419075/amir-raminfar">Amir Raminfar</a>
-     */
-    private String convertToHex(byte[] data) {
-        StringBuilder buf = new StringBuilder();
-        for (byte b : data) {
-            int halfbyte = (b >>> 4) & 0x0F;
-            int two_halfs = 0;
-            do {
-                buf.append((0 <= halfbyte) && (halfbyte <= 9) ? (char) ('0' + halfbyte) : (char) ('a' + (halfbyte - 10)));
-                halfbyte = b & 0x0F;
-            } while (two_halfs++ < 1);
-        }
-        return buf.toString();
-    }//end convertToHex
-    /*****************************************************************************/
-    /**
-     * @Author  <a href="http://stackoverflow.com/users/419075/amir-raminfar">Amir Raminfar</a>
-     */
-    private String generateRequestHash(String text) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
-            byte[] bytes = text.getBytes();
-            md.update(bytes, 0, bytes.length);
-            byte[] sha1hash = md.digest();
-            return convertToHex(sha1hash);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } /*catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }*/
-        return null;
-    }//end generateRequestHash
+
 
 }//end FyberRequest
