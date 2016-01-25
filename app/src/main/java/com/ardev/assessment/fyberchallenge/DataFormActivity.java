@@ -115,7 +115,9 @@ public class DataFormActivity extends AppCompatActivity implements Validator.Val
     public void onSuccess(FyberResponse fyberResponse) {
         findViewById(R.id.formProgress).setVisibility(View.GONE);
         AppLog.d(LOG_TAG, "Offers ok. response = " + fyberResponse.getResInJson());
-        AppLog.d(LOG_TAG, "Offers ok. response = " + fyberResponse.getSignatureHeader());
+//        AppLog.d(LOG_TAG, "Offers ok. response = " + fyberResponse.getSignatureHeader());
+        AppLog.d(LOG_TAG, "Offers ok. response = " + fyberResponse.IsRealResponse());
+
     }//end onSuccess
 
     /*****************************************************************************/

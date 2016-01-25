@@ -76,6 +76,7 @@ public class VolleyRequester {
                 try {
                     FyberResponse fyberResponse = new FyberResponse();
                     fyberResponse.setSignatureHeader(response.headers.get("X-Sponsorpay-Response-Signature"));
+                    fyberResponse.resData = response.data;
                     String jsonString = new String(response.data,
                             HttpHeaderParser.parseCharset(response.headers, "utf-8"));
                     fyberResponse.setResInJson(jsonString);
