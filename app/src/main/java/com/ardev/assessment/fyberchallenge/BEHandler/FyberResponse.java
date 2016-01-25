@@ -12,17 +12,13 @@ import java.security.NoSuchAlgorithmException;
  */
 public class FyberResponse {
     /*****************************************************************************/
-    private String resInJson, /*signature,*/ signatureHeader;
+    private String resInJson, signatureHeader;
     private int pagesCount;
     protected byte[] resData;
     /*****************************************************************************/
     public void setResInJson(String resInJson) {
         this.resInJson = resInJson;
     }
-
-   /* public void setSignature(String signature) {
-        this.signature = signature;
-    }*/
 
     public void setSignatureHeader(String signatureHeader) {
         this.signatureHeader = signatureHeader;
@@ -35,14 +31,6 @@ public class FyberResponse {
     public String getResInJson() {
         return resInJson;
     }
-
-    /*public String getSignature() {
-        return signature;
-    }*/
-
-   /* public String getSignatureHeader() {
-        return signatureHeader;
-    }*/
 
     public int getPagesCount() {
         return pagesCount;
@@ -89,39 +77,8 @@ public class FyberResponse {
             return convertToHex(sha1hash);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-        } /*catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }*/
+        }
         return null;
     }//end generateRequestHash
-    /*private String convertToHex(byte[] data) {
-        StringBuilder buf = new StringBuilder();
-//        int index = 0;
-        for (byte b : data) {
-           *//* int halfbyte = (b >>> 4) & 0x0F;
-            int two_halfs = 0;
-            do {
-                buf.append((0 <= halfbyte) && (halfbyte <= 9) ? (char) ('0' + halfbyte) : (char) ('a' + (halfbyte - 10)));
-                halfbyte = b & 0x0F;
-            } while (two_halfs++ < 1);*//*
-            buf.append(Integer.toString((*//*data[index]*//*b & 0xff) + 0x100, 16).substring(1));
-//            index++;
-        }
-        return buf.toString();
-    }
 
-    private String generateResponseHash(String text) {
-
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
-//            md.update(text.getBytes()*//*("UTF-8")*//*, 0, text.length());
-            byte[] sha1hash = md.digest(text.getBytes());
-            return convertToHex(sha1hash);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } *//*catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }*//*
-        return null;
-    }*/
 }//end class FyberResponse
