@@ -1,6 +1,7 @@
 package com.ardev.assessment.fyberchallenge;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -111,6 +112,13 @@ public class DataFormActivity extends AppCompatActivity implements Validator.Val
         AppLog.d(LOG_TAG, "Offers ok. response = " + fyberResponse.IsRealResponse(apiKey));
         Toast.makeText(this, fyberResponse.IsRealResponse(apiKey)? R.string.goodResponse : R.string.tamperedResponse,
                 Toast.LENGTH_SHORT).show();
+
+
+//Passing MyOjects instance
+        Intent mIntent = new Intent(this, OffersWallActivity.class);
+//        mIntent.putParcelableArrayListExtra("UniqueKey", mUsers);
+        mIntent.putExtra("response", fyberResponse);
+        startActivity(mIntent);
     }//end onSuccess
     /*****************************************************************************/
     @Override

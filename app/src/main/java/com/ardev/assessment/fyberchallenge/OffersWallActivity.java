@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.ardev.assessment.fyberchallenge.BEHandler.FyberResponse;
 import com.ardev.assessment.fyberchallenge.listeners.OnRequestCompletedListener;
 import com.ardev.assessment.fyberchallenge.utils.AppLog;
 import com.fyber.Fyber;
@@ -26,8 +27,8 @@ public class OffersWallActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_offers_wall);
-//        Fyber.with("2070", this).start();
-//        OfferWallRequester.create(offersWallReqCallback).request(getApplicationContext());
+        FyberResponse res = getIntent().getParcelableExtra("response");
+        AppLog.d(LOG_TAG, res.getResInJson());
     }//end onCreate
     /*****************************************************************************/
     @Override
