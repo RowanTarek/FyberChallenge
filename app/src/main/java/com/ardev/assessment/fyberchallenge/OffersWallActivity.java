@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.ardev.assessment.fyberchallenge.BEHandler.FyberResponse;
@@ -30,11 +31,15 @@ public class OffersWallActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(this, R.string.dataParsingError, Toast.LENGTH_SHORT).show();
+            finish();
         }
     }//end onCreate
     /*****************************************************************************/
-
     private void populateOffers(ArrayList<Offer> offers) {
+        if(offers == null || offers.size() == 0){
+            findViewById(R.id.errorTextView).setVisibility(View.VISIBLE);
+            return;
+        }
         RecyclerView offersRecycler = (RecyclerView) findViewById(R.id.itemsRecycler);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

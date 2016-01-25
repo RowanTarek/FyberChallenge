@@ -14,10 +14,9 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 
 @RunWith(AndroidJUnit4.class)
 public class DataFormTest {
@@ -30,9 +29,9 @@ public class DataFormTest {
     public void checkFyberCall() {
         onView(withId(R.id.appIdEditTxt)).perform(typeText("2070"));
         onView(withId(R.id.userIdEditTxt)).perform(typeText("spiderman"));
-        onView(withId(R.id.apiKeyEditTxt)).perform(typeText("1c915e3b5d42d05136185030892fbb846c278927"));
+        onView(withId(R.id.apiKeyEditTxt)).perform(typeText("1c915e3b5d42d05136185030892fbb846c278927"), closeSoftKeyboard());
         onView(withId(R.id.connectBtn)).perform(click());
-        onView(withText("Good Response")).check(matches(isDisplayed()));
-    }
+        onView(withId(R.id.connectBtn)).check(doesNotExist());
+    }//end checkFyberCall
 
 }//end DataFormTest
